@@ -1,7 +1,6 @@
 import express from 'express'
 import cors from 'cors';
 import { dbConnection } from './config/database/dbConfig.js';
-import bodyParser from 'body-parser';
 import userRouter from './api/routes/user.js';
 import env from 'dotenv';
 
