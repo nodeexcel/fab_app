@@ -19,8 +19,6 @@ export const isExist = async(req, res, next)=>{
               if(req.body.password!==req.body.confirmPassword)
                  return res.status(403).send({message:"password and confirm password does not match"})
   
-                 const hashedPassword = await bcrypt.hash(req.body.password, 10);
-                 req.body.password = hashedPassword;
                  next()
             }
         }

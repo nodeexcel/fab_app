@@ -26,6 +26,11 @@ export const userServices = {
     },
 
 
+   async updateUser(userId ,userData){
+       return  await User.findByIdAndUpdate(userId, userData, {new:true});
+    },
+     
+
    async addOtp(otpData){
        const otp = await Otp.create(otpData);
        await otp.save();
