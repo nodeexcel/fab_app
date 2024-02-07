@@ -1,7 +1,6 @@
 import { Otp } from "../../models/otp.model.js";
 import { User } from "../../models/user.model.js";
 import { Profile } from "../../models/userProfile.model.js";
-import { Requirement } from "../../models/requirement.model.js";
 
 export const userServices = {
   async createUser(userData) {
@@ -19,15 +18,6 @@ export const userServices = {
 
   async fetchUserByEmail(email) {
     return await User.findOne({ email });
-  },
-
-  async setRequirement(data) {
-    const userRequirement = await Requirement.create(data);
-    return await userRequirement.save();
-  },
-  
-  async getRequirement(userId) {
-    return await Requirement.findOne({userId});
   },
 
   async addOtp(otpData) {

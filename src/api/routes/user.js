@@ -11,8 +11,6 @@ userRouter.post('/auth/signin',isExist, userController.signin);
 userRouter.post('/verify/otp', userController.verifyOtp);
 userRouter.get('/get_users',verifyUser, userController.getUsers);
 userRouter.get('/get_user/:id',verifyUser, userController.getUser);
-userRouter.get('/requirement',verifyUser, userController.getRequirement);
-userRouter.post('/requirement',verifyUser, userController.setRequirement);
 userRouter.put('/update/profile', verifyUser, upload.single('profile'), userController.updateProfile);
 userRouter.get('/get_profile', verifyUser, userController.userProfile);
 
