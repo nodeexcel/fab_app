@@ -1,5 +1,5 @@
 import { userServices } from "../api/services/user/user.service.js";
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcryptjs';
 
 
 export const isExist = async(req, res, next)=>{
@@ -10,7 +10,7 @@ export const isExist = async(req, res, next)=>{
             else{
               if(! await bcrypt.compare(req.body.password, user.password))
                 return res.status(403).send({message:"email or password is incorrect"})
-                req.user = user;
+                req.user = user
                 next()
             }
         }else{

@@ -13,3 +13,13 @@ export const verifyUser = async(req, res, next) => {
         res.status(500).send({success:false, message:error.message});
     }
 }
+
+export const isAdmin = async(req, res, next) => {
+    try {
+        if(req.user.role !== process.env.ROLE) return res.status(401).send("Unauthorize")
+
+        return next();
+    } catch (error) {
+        res.status(500).send({success:false, message:error.message});
+    }
+}

@@ -25,26 +25,24 @@ export const signin = async(req, res, next)=> {
     }
 }
 
+export const getUser = async (req, res, next) => {
+  const { id } = req.params;
+  try {
+    const user = await userServices.fetchUserById(id);
+    return res.status(200).send({ success: true, user });
+  } catch (error) {
+    res.status(501).send({ success: false, message: error.message });
+  }
+};
 
-export const getUser = async(req, res, next)=> {
-    const {id} = req.params;
-    try {
-        const user = await userServices.fetchUserById(id)
-        return res.status(200).send({success:true, user});
-    } catch (error) {
-        res.status(501).send({success:false, message:error.message});
-    }
-}
-
-
-export const getUsers = async(req, res, next)=> {
-    try {
-        const users = await userServices.fetchUsers();
-        return res.status(200).send({success:true, users});
-    } catch (error) {
-        res.status(501).send({success:false, message:error.message});
-    }
-}
+export const getUsers = async (req, res, next) => {
+  try {
+    const users = await userServices.fetchUsers();
+    return res.status(200).send({ success: true, users });
+  } catch (error) {
+    res.status(501).send({ success: false, message: error.message });
+  }
+};
 
 
 export const verifyOtp = async(req, res, next)=> {
@@ -53,7 +51,7 @@ export const verifyOtp = async(req, res, next)=> {
         const otpData = await userServices.fetchOtp(otp);
         if(!otpData) 
           return res.status(419).send({success:false, message:"otp expired"});
-        const hashedPassword = await bcrypt.hash(req.body.password, 10);
+        const hashedPassword = await bcrypt.hash(password, 10);
         const user = await userServices.createUser({fullname, email, password:hashedPassword, role})
         const accessToken = await createToken({id:user._id, email:user.email, role:user.role})
         return res.status(201).send({success:true, user, accessToken});
@@ -74,19 +72,16 @@ export const resendOtp = async(req, res, next)=> {
 
 
 export const updateProfile= async(req, res, next)=>{
+    if(!req.file) return res.status(404).send({message:"No file selected"})
     const {id} = req.user;
     try {
         const profileData = await userServices.fetchProfile(id);
         let profile;
         if(!profileData){
-            if(!req.file) return res.status(404).send({message:"No file selected"})
             profile = await userServices.createProfile({...req.body, userId:id, profileImage:req.file.path})
         }else{
-            if(req.file){
-                if (fs.existsSync(profileData.profileImage)) fs.unlinkSync(profileData.profileImage);
-                profile = await userServices.updateProfile(profileData._id, {...req.body, profileImage:req.file.path})
-            }
-            profile = await userServices.updateProfile(profileData._id, req.body)
+            if (fs.existsSync(profileData.profileImage)) fs.unlinkSync(profileData.profileImage);
+            profile = await userServices.updateProfile(profileData._id, {...req.body, profileImage:req.file.path})
         }
 
         return res.status(201).send({success:true, profile});
@@ -94,6 +89,16 @@ export const updateProfile= async(req, res, next)=>{
         console.log(error)
         res.status(501).send({success:false, message:error.message});
     }
+
+
+export const userProfile = async (req, res, next) => {
+  const { id } = req.user;
+  try {
+    const profileData = await userServices.fetchProfile(id);
+    return res.status(201).send({ success: true, profileData });
+  } catch (error) {
+    res.status(501).send({ success: false, message: error.message });
+  }
 }
 
 
@@ -109,11 +114,11 @@ export const forgotPassword = async(req, res, next)=> {
 
 
 export const updatePassword = async(req, res, next)=> {
-    const {password, confirmPassword} = req.body;
+    const {password, confirmPassword, email} = req.body;
     try {
         if(password !== confirmPassword) return res.status(200).send({message:"password and confirm password do not match"});
         const hashedPassword = await bcrypt.hash(password, 10);
-        const updatedUser = await userServices.updateUser(req.user.id, {password:hashedPassword});
+        const updatedUser = await userServices.updateUser(email, {password:hashedPassword});
         return res.status(200).send({success:true, updatedUser});
     } catch (error) {
         res.status(501).send({success:false, message:error.message});
