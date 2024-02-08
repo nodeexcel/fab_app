@@ -1,5 +1,4 @@
 import express from 'express';
-// import { getUser, signin, signup, verifyOtp , getUsers, updateProfile, userRequirement} from '../controllers/user.controller.js';
 import * as userController from '../controllers/user.controller.js';
 import { isExist } from '../../middlewares/isExists.js';
 import { verifyUser } from '../../middlewares/verifyUser.js';

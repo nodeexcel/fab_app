@@ -45,6 +45,7 @@ export const userServices = {
   },
 
   async fetchProfile(userId) {
+    console.log(userId);
     return await Profile.findOne({ userId });
   },
 };

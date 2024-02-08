@@ -98,6 +98,7 @@ export const userProfile = async (req, res, next) => {
   const { id } = req.user;
   try {
     const profileData = await userServices.fetchProfile(id);
+    console.log(profileData);
     return res.status(201).send({ success: true, profileData });
   } catch (error) {
     console.log(error);
