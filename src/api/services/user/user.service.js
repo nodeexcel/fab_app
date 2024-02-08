@@ -20,10 +20,16 @@ export const userServices = {
     return await User.findOne({ email });
   },
 
-  async addOtp(otpData) {
-    const otp = await Otp.create(otpData);
-    await otp.save();
-  },
+
+   async updateUser(email ,userData){
+       return  await User.findOneAndUpdate(email, userData, {new:true});
+    },
+     
+
+   async addOtp(otpData){
+       const otp = await Otp.create(otpData);
+       await otp.save();
+    },
 
   async fetchOtp(otp) {
     return await Otp.findOne({ otp });
