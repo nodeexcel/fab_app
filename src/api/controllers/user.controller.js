@@ -74,16 +74,19 @@ export const resendOtp = async(req, res, next)=> {
 
 
 export const updateProfile= async(req, res, next)=>{
-    if(!req.file) return res.status(404).send({message:"No file selected"})
     const {id} = req.user;
     try {
         const profileData = await userServices.fetchProfile(id);
         let profile;
         if(!profileData){
+            if(!req.file) return res.status(404).send({message:"No file selected"})
             profile = await userServices.createProfile({...req.body, userId:id, profileImage:req.file.path})
         }else{
-            if (fs.existsSync(profileData.profileImage)) fs.unlinkSync(profileData.profileImage);
-            profile = await userServices.updateProfile(profileData._id, {...req.body, profileImage:req.file.path})
+            if(req.file){
+                if (fs.existsSync(profileData.profileImage)) fs.unlinkSync(profileData.profileImage);
+                profile = await userServices.updateProfile(profileData._id, {...req.body, profileImage:req.file.path})
+            }
+            profile = await userServices.updateProfile(profileData._id, req.body)
         }
 
         return res.status(201).send({success:true, profile});

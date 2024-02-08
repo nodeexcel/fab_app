@@ -11,8 +11,8 @@ userRouter.post('/verify/otp', verifyOtp);
 userRouter.post('/resend/otp', resendOtp);
 userRouter.get('/get_users',verifyUser, getUsers);
 userRouter.get('/get_user/:id',verifyUser, getUser);
-userRouter.post('/forgot/password', verifyUser, forgotPassword);
-userRouter.put('/update/password', verifyUser, updatePassword);
+userRouter.post('/forgot/password', forgotPassword);
+userRouter.put('/update/password', updatePassword);
 userRouter.put('/update/profile', verifyUser, upload.single('profile'), updateProfile);
 
 
