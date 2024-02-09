@@ -10,7 +10,17 @@ export const setExhibition = async (req, res, next) => {
     });
     if (data) res.status(200).send({ message: "exhibition created", data });
   } catch (error) {
-    console.log(error);
+    
+    res.status(501).send({ success: false, message: error.message });
+  }
+};
+
+export const getExhibition = async (req, res, next) => {
+  try {
+    const exhibition = await exhibitionServices.getExhibition();
+    res.status(200).send({ message: "Exhibitions", exhibition });
+  } catch (error) {
+
     res.status(501).send({ success: false, message: error.message });
   }
 };
@@ -32,7 +42,7 @@ export const updateExhibition = async (req, res, next) => {
       return res.status(201).send({ success: true, updatedExb });
     }
   } catch (error) {
-    console.log(error);
+    
     res.status(501).send({ success: false, message: error.message });
   }
 };

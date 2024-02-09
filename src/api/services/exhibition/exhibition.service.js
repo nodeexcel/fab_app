@@ -6,6 +6,10 @@ export const exhibitionServices = {
     return await Exhibition.findById(id);
   },
 
+  async getExhibition() {
+    return await Exhibition.find();
+  },
+
   async createExhibution(data) {
     const newProfile = await Exhibition.create(data);
     return await newProfile.save();

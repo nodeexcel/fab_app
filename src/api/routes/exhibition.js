@@ -5,6 +5,7 @@ import { upload } from '../../config/assets/multerConfigration.js';
 
 const exhibitionRouter = express.Router();
 
+exhibitionRouter.get('/get',verifyUser,exhibitionController.getExhibition);
 exhibitionRouter.post('/create',verifyUser,isAdmin,upload.single('imageURL'),exhibitionController.setExhibition);
 exhibitionRouter.put('/update/:_id',verifyUser,isAdmin,upload.single('imageURL'),exhibitionController.updateExhibition);
 
