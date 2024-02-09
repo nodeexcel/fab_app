@@ -1,5 +1,13 @@
 import mongoose from 'mongoose';
 
+const requirementsUpdateSchema = new mongoose.Schema({
+        fullname:String,
+        email:String,
+        progress:{
+            type:String,
+            default:""
+        }
+    })
 
 const requirementSchema = new mongoose.Schema({
     stallSize:{
@@ -36,6 +44,12 @@ const requirementSchema = new mongoose.Schema({
     },
     comment:{
         type:String
+    },
+
+    acceptedBy:requirementsUpdateSchema,
+
+    isAccepted:{
+        type:Boolean,
     },
     userId: {
         type: mongoose.Schema.Types.ObjectId,

@@ -4,6 +4,8 @@ import { verifyUser } from '../../middlewares/verifyUser.js';
 
 const requirementRouter = express.Router();
 requirementRouter.post('/set',verifyUser, requirementController.setRequirement);
-requirementRouter.get('/get',verifyUser, requirementController.getRequirement);
+requirementRouter.get('/get/:id',verifyUser, requirementController.getRequirement);
+requirementRouter.get('/get_all',verifyUser, requirementController.getRequirements);
+requirementRouter.put('/accept/:id',verifyUser, requirementController.acceptRequirement);
 
 export default requirementRouter;
