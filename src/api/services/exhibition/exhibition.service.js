@@ -2,7 +2,7 @@ import { Exhibition } from "../../models/exhibition.model.js";
 
 export const exhibitionServices = {
 
-  async fetchExhibution(id) {
+  async fetchExhibition(id) {
     return await Exhibition.findById(id);
   },
 
@@ -10,12 +10,12 @@ export const exhibitionServices = {
     return await Exhibition.find();
   },
 
-  async createExhibution(data) {
+  async createExhibition(data) {
     const newProfile = await Exhibition.create(data);
     return await newProfile.save();
   },
 
-  async updateExhibution(_id, profileData) {
+  async updateExhibition(_id, profileData) {
     return await Exhibition.findByIdAndUpdate(_id, profileData, {
       new: true,
     });
