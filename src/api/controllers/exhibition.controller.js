@@ -4,7 +4,7 @@ import fs from "fs";
 export const setExhibition = async (req, res, next) => {
   if(!req.file) return res.status(404).send("file not selected")
   try {
-    const data = await exhibitionServices.createProfile({
+    const data = await exhibitionServices.createExhibution({
       ...req.body,
       imageURL: req.file.path,
     });
@@ -19,16 +19,16 @@ export const updateExhibition = async (req, res, next) => {
   const id = req.params;
   try {
     if (req.file) {
-      const exbData = await exhibitionServices.fetchProfile(id);
+      const exbData = await exhibitionServices.fetchExhibution(id);
 
       if (fs.existsSync(exbData.imageURL)) fs.unlinkSync(exbData.imageURL);
-      const updatedExb = await exhibitionServices.updateProfile(id, {
+      const updatedExb = await exhibitionServices.updateExhibution(id, {
         ...req.body,
         imageURL: req.file.path,
       });
       return res.status(201).send({ success: true, updatedExb });
     } else {
-      const updatedExb = await exhibitionServices.updateProfile(id, req.body);
+      const updatedExb = await exhibitionServices.updateExhibution(id, req.body);
       return res.status(201).send({ success: true, updatedExb });
     }
   } catch (error) {

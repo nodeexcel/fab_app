@@ -21,8 +21,8 @@ export const userServices = {
   },
 
 
-   async updateUser(email ,userData){
-       return  await User.findOneAndUpdate(email, userData, {new:true});
+   async updateUser(id ,userData){
+       return  await User.findByIdAndUpdate(id, userData, {new:true});
     },
      
 
@@ -51,7 +51,6 @@ export const userServices = {
   },
 
   async fetchProfile(userId) {
-    console.log(userId);
     return await Profile.findOne({ userId });
   },
 };
