@@ -16,7 +16,7 @@ export const verifyUser = async(req, res, next) => {
 
 export const isAdmin = async(req, res, next) => {
     try {
-        if(req.user.role !== process.env.ROLE) return res.status(401).send("Unauthorize")
+        if(req.user.role !== process.env.ADMIN_ROLE) return res.status(401).send("You have not access to this resource")
 
         return next();
     } catch (error) {

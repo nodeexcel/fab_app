@@ -18,6 +18,14 @@ export const requirementServices = {
   async getRequirements() {
     return await Requirement.find({ isAccepted:false});
   },
+
+  async getAcceptedRequirements(email) {
+    return await Requirement.find({'acceptedBy.email':email ,isAccepted:true});
+  },
+
+  async getAllRequirements() {
+    return await Requirement.find();
+  },
   
   async requirementStatus(id, files) {
     const progressPaths = files.map(file => file.path);
