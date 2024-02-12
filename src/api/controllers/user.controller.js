@@ -1,7 +1,7 @@
 import { mailSender } from "../../helpers/mailSender.js";
 import { createToken,verifyToken } from "../../utils/user.js";
 import { userServices } from "../services/user/user.service.js";
-import bcrypt from 'bcryptjs'
+import bcrypt from 'bcrypt'
 import fs from 'fs';
 
 
