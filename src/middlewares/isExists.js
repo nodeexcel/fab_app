@@ -1,5 +1,5 @@
 import { userServices } from "../api/services/user/user.service.js";
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcryptjs';
 
 
 export const isExist = async(req, res, next)=>{

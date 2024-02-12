@@ -35,7 +35,6 @@ export const acceptRequirement = async (req, res) => {
   try {
     const userRequirement = await requirementServices.updateRequirement(id, req.user);
     const user= await userServices.fetchUserById(userRequirement.userId)
-    console.log(user.email, req.user);
     await ackSender(user.email,req.user );
     return res.status(201).send({ success: true, userRequirement });
   } catch (error) {
@@ -51,6 +50,27 @@ export const getRequirements = async (req, res) => {
     return res.status(201).send({ success: true, userRequirements });
   } catch (error) {
     console.log(error);
+    res.status(501).send({ success: false, message: error.message });
+  }
+};
+
+export const requirementStatus = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const userRequirement = await requirementServices.requirementStatus(id,req.files);
+    return res.status(201).send({ success: true, userRequirement });
+  } catch (error) {
+    res.status(501).send({ success: false, message: error.message });
+  }
+};
+
+export const deleteRequirement = async (req, res) => {
+  const { id } = req.params;
+  const { index } = req.query;
+  try {
+    const userRequirement = await requirementServices.deleteRequirement(id, index);
+    return res.status(201).send({ success: true, userRequirement });
+  } catch (error) {
     res.status(501).send({ success: false, message: error.message });
   }
 };

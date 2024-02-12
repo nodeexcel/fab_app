@@ -2,11 +2,10 @@ import { exhibitionServices } from "../services/exhibition/exhibition.service.js
 import fs from "fs";
 
 export const setExhibition = async (req, res, next) => {
-  if(!req.file) return res.status(404).send("file not selected")
   try {
-    const data = await exhibitionServices.createExhibution({
+    const data = await exhibitionServices.createExhibition({
       ...req.body,
-      imageURL: req.file.path,
+      imageURL:req.file ? req.file.path : "",
     });
     if (data) res.status(200).send({ message: "exhibition created", data });
   } catch (error) {

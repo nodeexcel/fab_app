@@ -4,8 +4,8 @@ const requirementsUpdateSchema = new mongoose.Schema({
         fullname:String,
         email:String,
         progress:{
-            type:String,
-            default:""
+            type:[String],
+            default:null
         }
     })
 
