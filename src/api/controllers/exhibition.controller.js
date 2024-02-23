@@ -5,7 +5,7 @@ export const setExhibition = async (req, res, next) => {
   try {
     const data = await exhibitionServices.createExhibition({
       ...req.body,
-      imageURL:req.file ? req.file.path : "",
+      imageURL:req.file ? `http://116.202.210.102:3005/images/${req.file.filename}` : "",
     });
     if (data) res.status(200).send({ message: "exhibition created", data });
   } catch (error) {
@@ -28,16 +28,18 @@ export const updateExhibition = async (req, res, next) => {
   const id = req.params;
   try {
     if (req.file) {
-      const exbData = await exhibitionServices.fetchExhibution(id);
-
-      if (fs.existsSync(exbData.imageURL)) fs.unlinkSync(exbData.imageURL);
-      const updatedExb = await exhibitionServices.updateExhibution(id, {
+      const exbData = await exhibitionServices.fetchExhibition(id);
+      const imgName = exbData.imageURL?.split('/')[4];
+      const url = `http://116.202.210.102:3005/images/${req.file.filename}`
+                
+      if(fs.existsSync(`src/uploads/${imgName}`) && exbData.imageURL!== url) fs.unlinkSync(`src/uploads/${imgName}`);
+      const updatedExb = await exhibitionServices.updateExhibition(id, {
         ...req.body,
-        imageURL: req.file.path,
+        imageURL:url,
       });
       return res.status(201).send({ success: true, updatedExb });
     } else {
-      const updatedExb = await exhibitionServices.updateExhibution(id, req.body);
+      const updatedExb = await exhibitionServices.updateExhibition(id, req.body);
       return res.status(201).send({ success: true, updatedExb });
     }
   } catch (error) {

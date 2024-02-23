@@ -81,13 +81,20 @@ export const updateProfile= async(req, res, next)=>{
         const profileData = await userServices.fetchProfile(id);
         let profile;
         if(!profileData){
-            if(req.file) profile = await userServices.createProfile({...req.body, userId:id, profileImage:req.file.path})
+            if(req.file) {
+            const url = `http://116.202.210.102:3005/images/${req.file.filename}`    
+            profile = await userServices.createProfile({...req.body, userId:id, profileImage:url})
+            }
             else profile = await userServices.createProfile({...req.body, userId:id})
         }else{
             if(req.file)
             {
-                if (fs.existsSync(profileData.profileImage)) fs.unlinkSync(profileData.profileImage);
-                profile = await userServices.updateProfile(profileData._id, {...req.body, profileImage:req.file.path})
+                const url = `http://116.202.210.102:3005/images/${req.file.filename}`
+                const imgName = profileData.profileImage.split('/')[4]
+                if(fs.existsSync(`src/uploads/${imgName}`) && profileData.profileImage!==url){
+                    fs.unlinkSync(`src/uploads/${imgName}`);
+                }
+                profile = await userServices.updateProfile(profileData._id, {...req.body, profileImage:url})
             }else
             profile = await userServices.updateProfile(profileData._id, {...req.body})
         }
@@ -127,7 +134,6 @@ export const updatePassword = async(req, res, next)=> {
     try {
         if(!token) return res.status(403).send({message:"token is required for reset password"})
         const decodedUser = await verifyToken(token);
-        console.log(decodedUser.email)
         if(password !== confirmPassword) return res.status(200).send({message:"password and confirm password do not match"});
         const hashedPassword = await bcrypt.hash(password, 10);
         const updatedUser = await userServices.updateUser(decodedUser.id, {password:hashedPassword});

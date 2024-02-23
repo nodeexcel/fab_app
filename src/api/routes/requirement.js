@@ -9,7 +9,7 @@ requirementRouter.get('/get/:id',verifyUser, requirementController.getRequiremen
 requirementRouter.get('/get_all',verifyUser, requirementController.getPendingRequirements);
 requirementRouter.put('/accept/:id',verifyUser, requirementController.acceptRequirement);
 requirementRouter.get('/accepted',verifyUser, requirementController.getAcceptedRequirements);
-requirementRouter.get('/all/fetch',verifyUser,isAdmin, requirementController.getAllRequirements);
+requirementRouter.get('/all/fetch',verifyUser, requirementController.getAllRequirements);
 
 requirementRouter.put('/remove/:id',verifyUser, requirementController.deleteRequirement);
 requirementRouter.put('/status/:id',verifyUser, upload.array("progress",5), requirementController.requirementStatus);

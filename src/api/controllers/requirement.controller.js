@@ -3,6 +3,7 @@ import { requirementServices } from "../services/requirement/requirement.service
 import { userServices } from "../services/user/user.service.js";
 
 export const setRequirement = async (req, res) => {
+  console.log(req.body);
   const { id } = req.user;
   try {
     const userRequirement = await requirementServices.setRequirement({
@@ -30,7 +31,6 @@ export const getRequirement = async (req, res) => {
 
 export const acceptRequirement = async (req, res) => {
   const { id } = req.params;
-  console.log(req.user)
   try {
     const userRequirement = await requirementServices.updateRequirement(id, req.user);
     const user= await userServices.fetchUserById(userRequirement.userId)

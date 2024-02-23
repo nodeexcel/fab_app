@@ -10,6 +10,7 @@ export const isExist = async(req, res, next)=>{
             else{
               if(! await bcrypt.compare(req.body.password, user.password))
                 return res.status(403).send({message:"email or password is incorrect"})
+            
                 req.user = user
                 next()
             }

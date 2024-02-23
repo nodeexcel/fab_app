@@ -28,9 +28,18 @@ export const requirementServices = {
   },
   
   async requirementStatus(id, files) {
-    const progressPaths = files.map(file => file.path);
+    const progressPaths = files.map(file => `http://116.202.210.102:3005/images/${file.filename}`);
     const {acceptedBy} = await this.getRequirement(id)
-     return await Requirement.findByIdAndUpdate(id, {acceptedBy:{progress:[...acceptedBy.progress ,...progressPaths]} }, { new: true });
+     return await Requirement.findByIdAndUpdate(
+      id, 
+      {
+        acceptedBy:{
+          fullname:acceptedBy.fullname,
+          email:acceptedBy.email,
+          progress:[...acceptedBy.progress ,...progressPaths]} 
+        },
+         { new: true }
+         );
   },
   
   async deleteRequirement(id, index) {
